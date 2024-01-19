@@ -1,31 +1,28 @@
 package study.vertxwebstudy;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.MultiMap;
-import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 
 public class MainVerticle extends AbstractVerticle {
 
   @Override
-  public void start(Promise<Void> startPromise) throws Exception {
-    vertx.createHttpServer().requestHandler(req -> {
-      req.response()
-        .putHeader("content-type", "text/plain")
-        .end("Hello from Vert.x!");
-    }).listen(8888, http -> {
-      if (http.succeeded()) {
-        startPromise.complete();
-        System.out.println("HTTP server started on port 8888");
-      } else {
-        startPromise.fail(http.cause());
-      }
-    });
-  }
+  public void start() throws Exception {
 
+    Router router = Router.router(vertx);
+    router.route().handler(ctx -> {
+      HttpServerResponse response = ctx.response();
+      response.setChunked(true);
+      response.write("hello world!\n");
+      response.end();
+    });
+
+    vertx.createHttpServer()
+      .requestHandler(router)
+      .listen(8080);
+
+  }
 }
 
 
