@@ -1,7 +1,11 @@
 package study.vertxwebstudy;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.MultiMap;
 import io.vertx.core.Promise;
+import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 
 public class MainVerticle extends AbstractVerticle {
